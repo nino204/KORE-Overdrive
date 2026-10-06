@@ -1,0 +1,169 @@
+using ZenStates.Core.Common;
+
+namespace ZenStates.Core.Hardware.Apob
+{
+    public sealed class ApobData : ApobBlockData
+    {
+        internal ApobData(byte[] data, uint offset, ApobBlockLayout layout) : base(data, offset, layout)
+        {
+        }
+
+        private byte? RttNomRdRaw { get { return ReadRawValue(Layout.Offsets.RttNomRd); } }
+        private byte? RttNomWrRaw { get { return ReadRawValue(Layout.Offsets.RttNomWr); } }
+        private byte? RttWrRaw { get { return ReadRawValue(Layout.Offsets.RttWr); } }
+        private byte? RttParkRaw { get { return ReadRawValue(Layout.Offsets.RttPark); } }
+        private byte? RttParkDqsRaw { get { return ReadRawValue(Layout.Offsets.RttParkDqs); } }
+        private byte? DramDataDsRaw { get { return ReadRawValue(Layout.Offsets.DramDataDs); } }
+
+        private byte? CkOdtARaw { get { return ReadRawValue(Layout.Offsets.CkOdtA); } }
+        private byte? CsOdtARaw { get { return ReadRawValue(Layout.Offsets.CsOdtA); } }
+        private byte? CaOdtARaw { get { return ReadRawValue(Layout.Offsets.CaOdtA); } }
+        private byte? CkOdtBRaw { get { return ReadRawValue(Layout.Offsets.CkOdtB); } }
+        private byte? CsOdtBRaw { get { return ReadRawValue(Layout.Offsets.CsOdtB); } }
+        private byte? CaOdtBRaw { get { return ReadRawValue(Layout.Offsets.CaOdtB); } }
+
+        private byte? ProcOdtRaw { get { return ReadRawValue(Layout.Offsets.ProcOdt); } }
+        private byte? ProcDqDsRaw { get { return ReadRawValue(Layout.Offsets.ProcDqDs); } }
+        private byte? ProcCaDsRaw { get { return ReadRawValue(Layout.Offsets.ProcCaDs); } }
+        private byte? ProcCkDsRaw { get { return ReadRawValue(Layout.Offsets.ProcCkDs); } }
+        private byte? ProcCsDsRaw { get { return ReadRawValue(Layout.Offsets.ProcCsDs); } }
+
+        private byte? RttNomRdP0Raw { get { return ReadRawValue(Layout.Offsets.RttNomRdP0); } }
+        private byte? RttNomWrP0Raw { get { return ReadRawValue(Layout.Offsets.RttNomWrP0); } }
+        private byte? RttWrP0Raw { get { return ReadRawValue(Layout.Offsets.RttWrP0); } }
+        private byte? RttParkP0Raw { get { return ReadRawValue(Layout.Offsets.RttParkP0); } }
+        private byte? RttParkDqsP0Raw { get { return ReadRawValue(Layout.Offsets.RttParkDqsP0); } }
+
+        private byte? DramDqDsPullUpP0Raw { get { return ReadRawValue(Layout.Offsets.DramDqDsPullUpP0); } }
+        private byte? DramDqDsPullDownP0Raw { get { return ReadRawValue(Layout.Offsets.DramDqDsPullDownP0); } }
+
+        private byte? ProcOdtPullUpP0Raw { get { return ReadRawValue(Layout.Offsets.ProcOdtPullUpP0); } }
+        private byte? ProcOdtPullDownP0Raw { get { return ReadRawValue(Layout.Offsets.ProcOdtPullDownP0); } }
+        private byte? ProcDqDsPullUpP0Raw { get { return ReadRawValue(Layout.Offsets.ProcDqDsPullUpP0); } }
+        private byte? ProcDqDsPullDownP0Raw { get { return ReadRawValue(Layout.Offsets.ProcDqDsPullDownP0); } }
+
+        private byte? ProcCaOdtRaw { get { return ReadRawValue(Layout.Offsets.ProcCaOdt); } }
+        private byte? ProcCkOdtRaw { get { return ReadRawValue(Layout.Offsets.ProcCkOdt); } }
+        private byte? ProcDqOdtRaw { get { return ReadRawValue(Layout.Offsets.ProcDqOdt); } }
+        private byte? ProcDqsOdtRaw { get { return ReadRawValue(Layout.Offsets.ProcDqsOdt); } }
+        private byte? ProcDataDsApuRaw { get { return ReadRawValue(Layout.Offsets.ProcDataDsApu); } }
+
+        private byte? PhyVrefRaw { get { return ReadRawValue(Layout.Offsets.PhyVref); } }
+        private byte? DramVrefDqRaw { get { return ReadRawValue(Layout.Offsets.DramVrefDq); } }
+        private byte? DramVrefCaRaw { get { return ReadRawValue(Layout.Offsets.DramVrefCa); } }
+        private byte? DramVrefCsRaw { get { return ReadRawValue(Layout.Offsets.DramVrefCs); } }
+
+        /// <summary>
+        /// The memory is LPDDR5, the DRAM Vrefs use the LPDDR5 mode register encoding. Not public: the APOB window
+        /// shows the public properties as rows.
+        /// </summary>
+        internal bool IsLpddr5 { get; set; }
+
+        public Rtt RttNomRd { get { return RttNomRdRaw.HasValue ? new Rtt(RttNomRdRaw.Value) : null; } }
+        public Rtt RttNomWr { get { return RttNomWrRaw.HasValue ? new Rtt(RttNomWrRaw.Value) : null; } }
+        public Rtt RttWr { get { return RttWrRaw.HasValue ? new Rtt(RttWrRaw.Value) : null; } }
+        public Rtt RttPark { get { return RttParkRaw.HasValue ? new Rtt(RttParkRaw.Value) : null; } }
+        public Rtt RttParkDqs { get { return RttParkDqsRaw.HasValue ? new Rtt(RttParkDqsRaw.Value) : null; } }
+
+        public DramDataDrvStren DramDataDs { get { return DramDataDsRaw.HasValue ? new DramDataDrvStren(DramDataDsRaw.Value) : null; } }
+
+        public GroupOdtImpedance CkOdtA { get { return CkOdtARaw.HasValue ? new GroupOdtImpedance(CkOdtARaw.Value) : null; } }
+        public GroupOdtImpedance CsOdtA { get { return CsOdtARaw.HasValue ? new GroupOdtImpedance(CsOdtARaw.Value) : null; } }
+        public GroupOdtImpedance CaOdtA { get { return CaOdtARaw.HasValue ? new GroupOdtImpedance(CaOdtARaw.Value) : null; } }
+        public GroupOdtImpedance CkOdtB { get { return CkOdtBRaw.HasValue ? new GroupOdtImpedance(CkOdtBRaw.Value) : null; } }
+        public GroupOdtImpedance CsOdtB { get { return CsOdtBRaw.HasValue ? new GroupOdtImpedance(CsOdtBRaw.Value) : null; } }
+        public GroupOdtImpedance CaOdtB { get { return CaOdtBRaw.HasValue ? new GroupOdtImpedance(CaOdtBRaw.Value) : null; } }
+
+        public ProcOdt ProcOdt { get { return ProcOdtRaw.HasValue ? new ProcOdt(ProcOdtRaw.Value) : null; } }
+        public ProcOdt ProcDqDs { get { return ProcDqDsRaw.HasValue ? new ProcOdt(ProcDqDsRaw.Value) : null; } }
+        public ProcOdtImpedance ProcCaDs { get { return ProcCaDsRaw.HasValue ? new ProcOdtImpedance(ProcCaDsRaw.Value) : null; } }
+        public ProcOdtImpedance ProcCkDs { get { return ProcCkDsRaw.HasValue ? new ProcOdtImpedance(ProcCkDsRaw.Value) : null; } }
+        public ProcOdtImpedance ProcCsDs { get { return ProcCsDsRaw.HasValue ? new ProcOdtImpedance(ProcCsDsRaw.Value) : null; } }
+
+        public Rtt RttNomRdP0 { get { return RttNomRdP0Raw.HasValue ? new Rtt(RttNomRdP0Raw.Value) : null; } }
+        public Rtt RttNomWrP0 { get { return RttNomWrP0Raw.HasValue ? new Rtt(RttNomWrP0Raw.Value) : null; } }
+        public Rtt RttWrP0 { get { return RttWrP0Raw.HasValue ? new Rtt(RttWrP0Raw.Value) : null; } }
+        public Rtt RttParkP0 { get { return RttParkP0Raw.HasValue ? new Rtt(RttParkP0Raw.Value) : null; } }
+        public Rtt RttParkDqsP0 { get { return RttParkDqsP0Raw.HasValue ? new Rtt(RttParkDqsP0Raw.Value) : null; } }
+
+        public DramDataDrvStren DramDqDsPullUpP0 { get { return DramDqDsPullUpP0Raw.HasValue ? new DramDataDrvStren(DramDqDsPullUpP0Raw.Value) : null; } }
+        public DramDataDrvStren DramDqDsPullDownP0 { get { return DramDqDsPullDownP0Raw.HasValue ? new DramDataDrvStren(DramDqDsPullDownP0Raw.Value) : null; } }
+
+        public ProcOdt ProcOdtPullUpP0 { get { return ProcOdtPullUpP0Raw.HasValue ? new ProcOdt(ProcOdtPullUpP0Raw.Value) : null; } }
+        public ProcOdt ProcOdtPullDownP0 { get { return ProcOdtPullDownP0Raw.HasValue ? new ProcOdt(ProcOdtPullDownP0Raw.Value) : null; } }
+        public ProcOdt ProcDqDsPullUpP0 { get { return ProcDqDsPullUpP0Raw.HasValue ? new ProcOdt(ProcDqDsPullUpP0Raw.Value) : null; } }
+        public ProcOdt ProcDqDsPullDownP0 { get { return ProcDqDsPullDownP0Raw.HasValue ? new ProcOdt(ProcDqDsPullDownP0Raw.Value) : null; } }
+
+        public ProcOdtImpedance ProcCaOdt { get { return ProcCaOdtRaw.HasValue ? new ProcOdtImpedance(ProcCaOdtRaw.Value) : null; } }
+        public ProcOdtImpedance ProcCkOdt { get { return ProcCkOdtRaw.HasValue ? new ProcOdtImpedance(ProcCkOdtRaw.Value) : null; } }
+        public ProcOdtImpedance ProcDqOdt { get { return ProcDqOdtRaw.HasValue ? new ProcOdtImpedance(ProcDqOdtRaw.Value) : null; } }
+        public ProcOdtImpedance ProcDqsOdt { get { return ProcDqsOdtRaw.HasValue ? new ProcOdtImpedance(ProcDqsOdtRaw.Value) : null; } }
+        public CadBusDrvStren ProcDataDsApu { get { return ProcDataDsApuRaw.HasValue ? new CadBusDrvStren(ProcDataDsApuRaw.Value) : null; } }
+
+        /// <summary>The PHY receiver (read) Vref the PMU starts training with.</summary>
+        public PhyVref PhyVref { get { return PhyVrefRaw.HasValue ? new PhyVref(PhyVrefRaw.Value) : null; } }
+
+        /// <summary>The DRAM VrefDQ / VrefCA / VrefCS the PMU starts training with (mode register code).</summary>
+        public DramVref DramVrefDq { get { return DramVrefDqRaw.HasValue ? new DramVref(DramVrefDqRaw.Value, IsLpddr5) : null; } }
+        public DramVref DramVrefCa { get { return DramVrefCaRaw.HasValue ? new DramVref(DramVrefCaRaw.Value, IsLpddr5) : null; } }
+        public DramVref DramVrefCs { get { return DramVrefCsRaw.HasValue ? new DramVref(DramVrefCsRaw.Value, IsLpddr5) : null; } }
+
+        public string GetReport()
+        {
+            ReportBuilder report = new ReportBuilder();
+
+            report.AppendEncodedValueWithHex("RttNomRd", RttNomRd);
+            report.AppendEncodedValueWithHex("RttNomWr", RttNomWr);
+            report.AppendEncodedValueWithHex("RttWr", RttWr);
+            report.AppendEncodedValueWithHex("RttPark", RttPark);
+            report.AppendEncodedValueWithHex("RttParkDqs", RttParkDqs);
+
+            report.AppendEncodedValueWithHex("DramDataDs", DramDataDs);
+
+            report.AppendEncodedValueWithHex("CkOdtA", CkOdtA);
+            report.AppendEncodedValueWithHex("CsOdtA", CsOdtA);
+            report.AppendEncodedValueWithHex("CaOdtA", CaOdtA);
+            report.AppendEncodedValueWithHex("CkOdtB", CkOdtB);
+            report.AppendEncodedValueWithHex("CsOdtB", CsOdtB);
+            report.AppendEncodedValueWithHex("CaOdtB", CaOdtB);
+
+            report.AppendEncodedValueWithHex("ProcOdt", ProcOdt);
+            report.AppendEncodedValueWithHex("ProcDqDs", ProcDqDs);
+            report.AppendEncodedValueWithHex("ProcCaDs", ProcCaDs);
+            report.AppendEncodedValueWithHex("ProcCkDs", ProcCkDs);
+            report.AppendEncodedValueWithHex("ProcCsDs", ProcCsDs);
+
+            report.AppendEncodedValueWithHex("RttNomRdP0", RttNomRdP0);
+            report.AppendEncodedValueWithHex("RttNomWrP0", RttNomWrP0);
+            report.AppendEncodedValueWithHex("RttWrP0", RttWrP0);
+            report.AppendEncodedValueWithHex("RttParkP0", RttParkP0);
+            report.AppendEncodedValueWithHex("RttParkDqsP0", RttParkDqsP0);
+
+            report.AppendEncodedValueWithHex("DramDqDsPullUpP0", DramDqDsPullUpP0);
+            report.AppendEncodedValueWithHex("DramDqDsPullDownP0", DramDqDsPullDownP0);
+
+            report.AppendEncodedValueWithHex("ProcOdtPullUpP0", ProcOdtPullUpP0);
+            report.AppendEncodedValueWithHex("ProcOdtPullDownP0", ProcOdtPullDownP0);
+            report.AppendEncodedValueWithHex("ProcDqDsPullUpP0", ProcDqDsPullUpP0);
+            report.AppendEncodedValueWithHex("ProcDqDsPullDownP0", ProcDqDsPullDownP0);
+
+            report.AppendEncodedValueWithHex("ProcCaOdt", ProcCaOdt);
+            report.AppendEncodedValueWithHex("ProcCkOdt", ProcCkOdt);
+            report.AppendEncodedValueWithHex("ProcDqOdt", ProcDqOdt);
+            report.AppendEncodedValueWithHex("ProcDqsOdt", ProcDqsOdt);
+            report.AppendEncodedValueWithHex("ProcDataDsApu", ProcDataDsApu);
+
+            report.AppendEncodedValueWithHex("PhyVref", PhyVref);
+            report.AppendEncodedValueWithHex("DramVrefDq", DramVrefDq);
+            report.AppendEncodedValueWithHex("DramVrefCa", DramVrefCa);
+            report.AppendEncodedValueWithHex("DramVrefCs", DramVrefCs);
+
+            report.AppendLine();
+            report.AppendLine("RawBytes:");
+
+            report.AppendHexDump(RawBytes);
+
+            return report.ToString();
+        }
+    }
+}

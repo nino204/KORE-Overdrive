@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <AssemblyName>KOREOverdrive.Backend</AssemblyName>
+    <LibreHardwareMonitorPath Condition="'$(LibreHardwareMonitorPath)' == ''">C:\Program Files (x86)\FanControl\LibreHardwareMonitorLib.dll</LibreHardwareMonitorPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared.cs" Link="Shared.cs"/>
+    <None Include="GigabyteBridge.ps1" CopyToOutputDirectory="PreserveNewest"/>
+    <Reference Include="LibreHardwareMonitorLib"><HintPath>$(LibreHardwareMonitorPath)</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+  <Target Name="CheckHardwareLibrary" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(LibreHardwareMonitorPath)')" Text="LibreHardwareMonitorLib.dll ausente. Instale Fan Control ou informe -p:LibreHardwareMonitorPath=CAMINHO." />
+  </Target>
+</Project>
